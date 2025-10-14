@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Панкейкс — Меню</title>
+
+  <!-- ✅ Favicon -->
+  <link rel="icon" type="image/png" href="https://i.ibb.co/21YYCfXK/photo-2025-10-14-18-48-23.jpg">
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --accent: #d6a354;
+      --bg: #fffaf3;
+      --muted: #666;
+      --card-bg: #fff;
+      --shadow: 0 6px 18px rgba(0,0,0,0.06);
+      --btn-hover: #c49340;
+    }
+    * { box-sizing: border-box; margin:0; padding:0; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: #2a1d0c;
+      display: flex;
+      min-height: 100vh;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    body.loaded { opacity: 1; transform: translateY(0); }
+
+    .sidebar button.active { 
+      background: var(--accent); 
+      color: #fff; 
+      font-style: italic; 
+    }
+
+    /* LOADER */
+    #loader {
+      position: fixed;
+      inset: 0;
+      background: #fffaf3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      z-index: 9999;
+      animation: fadeOutLoader 1s ease 2s forwards;
+    }
+    @keyframes fadeOutLoader { to { opacity: 0; visibility: hidden; } }
+    .loader-circle {
+      width: 70px;
+      height: 70px;
+      border: 5px solid rgba(214,163,84,0.3);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loader-text {
+      margin-top: 16px;
+      font-family: 'Playfair Display', serif;
+      color: #4a3a20;
+      font-size: 20px;
+      letter-spacing: 1px;
+      animation: fadeText 1.5s ease-in-out infinite alternate;
+    }
+    @keyframes fadeText { from { opacity: 0.5; } to { opacity: 1; } }
+
+    .sidebar-divider {
+      width: 90%;
+      margin: 8px auto;
+      border: none;
+      border-top: 1px solid rgba(0, 0, 0, 0.15);
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 220px;
+      background: #fff4e4;
+      padding: 24px 16px;
+      box-shadow: var(--shadow);
+      position: fixed;
+      top: 0; left: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      z-index: 10;
+      opacity: 0;
+      transform: translateX(-30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .sidebar.loaded { opacity: 1; transform: translateX(0); }
+    .sidebar h2 { font-family: 'Playfair Display', serif; font-size: 22px; color: #4a3a20; margin-bottom: 12px; }
+    .sidebar button {
+      background: none;
+      border: none;
+      text-align: left;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .sidebar button:hover,
+    .sidebar button.active { background: var(--accent); color: #fff; }
+
+    /* MAIN */
+    .content-wrapper {
+      margin-left: 240px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .content-wrapper.loaded { opacity: 1; transform: translateY(0); }
+    header {
+      background: linear-gradient(100deg, #fff 0%, #fff2dd 100%);
+      padding: 20px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      box-shadow: var(--shadow);
+      animation: fadeInDown 1s ease forwards;
+      opacity: 0;
+    }
+    @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .brand { display: flex; align-items: center; gap: 14px; }
+    .logo { width: 64px; height: 64px; border-radius: 50%; overflow: hidden; border: 2px solid black; background: var(--accent); display: flex; align-items: center; justify-content: center; }
+    .brand h1 { font-family: 'Playfair Display', serif; font-size: 26px; color: #3a2c1a; }
+    .tagline { font-size: 14px; color: var(--muted); }
+    .search { flex: 1; max-width: 360px; padding: 10px 14px; border-radius: 12px; border: 1px solid #ddd; font-size: 14px; }
+    main { max-width: 1600px; margin: 40px auto; padding: 0 16px; }
+    h2.section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      margin: 32px 0 16px;
+      color: #4a3a20;
+      border-bottom: 2px solid var(--accent);
+      display: inline-block;
+      padding-bottom: 6px;
+      animation: fadeInTitle 0.8s ease forwards;
+      opacity: 0;
+    }
+    @keyframes fadeInTitle { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ✅ 8 товарів в ряд */
+    .grid { 
+      display: grid; 
+      grid-template-columns: repeat(6, minmax(150px, 1fr));
+      gap: 24px; 
+      opacity: 0; 
+      transform: translateY(20px); 
+      animation: fadeInGrid 1s ease forwards 0.3s; 
+    }
+    @keyframes fadeInGrid { to { opacity: 1; transform: translateY(0); } }
+
+    .card { border-radius: 16px; background: var(--card-bg); box-shadow: var(--shadow); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s; opacity: 0; animation: fadeCard 0.6s ease forwards; }
+    @keyframes fadeCard { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 10px 24px rgba(0,0,0,0.08); }
+    .thumb { height: 150px; overflow: hidden; }
+    .thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+    .card:hover .thumb img { transform: scale(1.05); }
+    .content { padding: 12px; display: flex; flex-direction: column; flex: 1; }
+    .title { font-weight: 600; font-size: 16px; font-family: 'Playfair Display', serif; }
+    .meta { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 8px; }
+    .price { font-weight: 700; color: var(--accent); font-size: 15px; }
+    .btn { border: none; padding: 6px 12px; border-radius: 10px; background: var(--accent); color: #fff; cursor: pointer; font-weight: 600; transition: background 0.2s, transform 0.15s; }
+    .btn:hover { background: var(--btn-hover); transform: scale(1.05); }
+
+    footer { text-align: center; font-size: 14px; color: var(--muted); padding: 32px 0 40px; background: #fff4e4; margin-top: 40px; animation: fadeInTitle 1s ease forwards; opacity: 0; }
+
+    /* Адаптивність для сітки */
+    @media (max-width: 1600px) { .grid { grid-template-columns: repeat(6, 1fr); } }
+    @media (max-width: 1200px) { .grid { grid-template-columns: repeat(4, 1fr); } }
+    @media (max-width: 900px)  { .grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 600px)  { .grid { grid-template-columns: repeat(2, 1fr); } }
+
+    @media (max-width: 800px) { 
+      .sidebar { position: relative; width: 100%; height: auto; flex-direction: row; justify-content: center; flex-wrap: wrap; } 
+      .content-wrapper { margin-left: 0; } 
+    }
+
+    /* МОДАЛКА */
+    .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:10000; }
+    .modal-content { background:#fffaf3; padding:24px; border-radius:16px; max-width:400px; width:90%; position:relative; transform:scale(0); transition: transform 0.3s ease-out; text-align:center; }
+    .modal-content img { width:64px; animation:flyPancake 2s ease-in-out infinite alternate; margin-bottom:12px; }
+    @keyframes flyPancake { from { transform: translateY(0) rotate(0deg); } to { transform: translateY(-15px) rotate(10deg); } }
+  </style>
+</head>
+<body>
+  <!-- LOADER -->
+  <div id="loader">
+    <div class="loader-circle"></div>
+    <div class="loader-text">Панкейкс завантажується...</div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h2>Категорії</h2>
+    <hr class="sidebar-divider">
+    <button class="active" onclick="showCategory('all', event)">Усе</button>
+    <button onclick="showCategory('drinks', event)">Напої</button>
+    <button onclick="showCategory('desserts', event)">Десерти</button>
+    <button onclick="showCategory('popular', event)">Популярне</button>
+    <button onclick="showCategory('additives', event)">Добавки</button>
+    <button onclick="showCategory('bakery', event)">Випічка</button>
+    <hr class="sidebar-divider">
+    <button onclick="openModal()">Інформація</button>
+  </aside>
+
+  <!-- МОДАЛКА -->
+  <div id="homeModal" class="modal">
+    <div class="modal-content">
+      <img src="https://i.ibb.co/21YYCfXK/photo-2025-10-14-18-48-23.jpg" alt="Панкейк">
+      <h2>Панкейкс — Команда Мрії</h2>
+      <p><strong>Лідер:</strong> Шпак Дмитро</p>
+      <p><strong>Розробник сайту (IT):</strong> Міштурак Максим</p>
+      <p><strong>Фінансист:</strong> Матвій Стахів</p>
+      <p><strong>Маркетолог:</strong> Антоняк Іван</p>
+      <p><strong>Продакт-Менеджер:</strong> Тарасов Артем</p>
+      <p><strong>PR-менеджер:</strong> Михайлів Дмитро</p>
+      <hr style="margin:15px 0;border:none;border-top:1px solid #ddd;">
+      <p><strong>Адреса:</strong> Львів, пл. Ринок 1 💛</p>
+      <button onclick="closeModal()" style="margin-top:12px;padding:8px 16px;border:none;border-radius:12px;background:#d6a354;color:#fff;font-weight:600;cursor:pointer;">Закрити</button>
+    </div>
+  </div>
+
+  <div class="content-wrapper">
+    <header>
+      <div class="brand">
+        <div class="logo">
+          <img src="https://i.ibb.co/21YYCfXK/photo-2025-10-14-18-48-23.jpg" alt="Логотип Панкейкс" width="64" height="64">
+        </div>
+        <div>
+          <h1>Панкейкс — Меню</h1>
+          <div class="tagline">Кава, напої та десерти</div>
+        </div>
+      </div>
+      <input id="search" class="search" placeholder="Пошук у меню">
+    </header>
+
+    <main>
+      <section id="all-section">
+        <h2 class="section-title">Усе</h2>
+        <div id="all" class="grid"></div>
+      </section>
+
+      <section id="drinks-section" style="display:none">
+        <h2 class="section-title">Напої</h2>
+        <div id="drinks" class="grid"></div>
+      </section>
+
+      <section id="desserts-section" style="display:none">
+        <h2 class="section-title">Десерти</h2>
+        <div id="desserts" class="grid"></div>
+      </section>
+
+      <section id="additives-section" style="display:none">
+        <h2 class="section-title">Добавки</h2>
+        <div id="additives" class="grid"></div>
+      </section>
+
+      <section id="bakery-section" style="display:none">
+        <h2 class="section-title">Випічка</h2>
+        <div id="bakery" class="grid"></div>
+      </section>
+
+      <section id="popular-section" style="display:none">
+        <h2 class="section-title">Популярне</h2>
+        <div id="popular" class="grid"></div>
+      </section>
+    </main>
+
+    <footer>
+      © 2025 Панкейкс — З любов’ю до кави, смаку та тепла ☕🥞
+    </footer>
+  </div>
+
+  <script>
+    const drinks = [
+      {name:'Апельсиновий сік (200мг)',price:'50 грн',img:'https://i.ibb.co/B2P965Pn/image-removebg-preview.png'},
+      {name:'Банановий шейк (200мг)',price:'50 грн',img:'https://i.ibb.co/F4X9zwYy/image-removebg-preview-1.png'},
+      {name:'Гарячий шоколад з маршмеллоу (300мг)',price:'45 грн',img:'https://i.ibb.co/sJcWS13q/image-removebg-preview-2-1.png'},
+      {name:'Ягідний смузі (300мг)',price:'60 грн',img:'https://i.ibb.co/svZWNZVp/image-removebg-preview-2.png'},
+      {name:'Латте з молоком (200мг)',price:'65 грн',img:'https://i.ibb.co/N67nD50C/image-removebg-preview-3-1.png'},
+      {name:'Капучино (200мг)',price:'65 грн',img:'https://i.ibb.co/F4SCHHJG/image-removebg-preview-4.png'},
+      {name:'Какао (200мг)',price:'65 грн',img:'https://i.ibb.co/C5VHByrz/image-removebg-preview-5.png'}
+    ];
+
+    const desserts = [
+      {name:'Сирники з ягодами',price:'120 грн',img:'https://i.ibb.co/QFBZyhh8/image-removebg-preview-6-1.png'},
+      {name:'Панкейки з медом',price:'110 грн',img:'https://i.ibb.co/TD63vGBt/image-removebg-preview-7-1.png'},
+      {name:'Млинці з шоколадом',price:'100 грн',img:'https://i.ibb.co/C3Rkmxb6/image-removebg-preview-8.png'},
+      {name:'Морозиво з фруктами',price:'100 грн',img:'https://i.ibb.co/tp0TRv5x/image-removebg-preview-9-1.png'},
+      {name:'Чізкейк міні',price:'80 грн',img:'https://i.ibb.co/gF4NHFPL/image-removebg-preview-10-1.png'},
+      {name:"Печиво з глазур'ю",price:'70 грн',img:'https://i.ibb.co/DX51Fng/image-removebg-preview-11.png'}
+    ];
+
+    const additives = [
+     {name:'Вишневий',price:'15 грн',img:'https://i.ibb.co/8L7DvVPp/visnya-500x500-removebg-preview.png'},
+     {name:'Банановий',price:'15 грн',img:'https://i.ibb.co/Gfv1qJLT/image-removebg-preview-3.png'},
+     {name:'Шоколадний',price:'15 грн',img:'https://i.ibb.co/S7rHsk8g/image-removebg-preview-6.png'},
+     {name:'Кремовий',price:'15 грн',img:'https://i.ibb.co/rf4cJRgz/image-removebg-preview-7.png'},
+     {name:'Карамельний', price:'15 грн', img:'https://i.ibb.co/DPD9CDMf/image-removebg-preview-9.png'},
+     {name:'Малиновий', price:'15 грн', img:'https://i.ibb.co/HpNsLZcT/image-removebg-preview-10.png'}
+    ];
+
+    const bakery = [
+     {name:'Паніні',price:'49 грн',img:'https://i.ibb.co/VW4wvwhd/image-removebg-preview-12.png'},
+     {name:'Круасан',price:'69 грн',img:'https://i.ibb.co/W4Vw3MHt/Croi-Buter-Brott-500x500-min-63d2591721133.png'},
+     {name:'Маффін',price:'69 грн',img:'https://i.ibb.co/C3p7GGSH/image-removebg-preview-13.png'},
+     {name:'Хот дог',price:'59 грн',img:'https://i.ibb.co/SCPmG30/image-removebg-preview-14.png'},
+     {name:'Булочка з корицею', price:'75 грн', img:'https://i.ibb.co/TqNVG2PC/image-removebg-preview-16.png'},
+     {name:'Пиріжок з яблуками', price:'70 грн', img:'https://i.ibb.co/wGTPFwd/image-removebg-preview-17-1.png'}
+    ];
+
+    const popular = [ drinks[5], drinks[4], drinks[3], desserts[0], desserts[4] ];
+    const allItems = [...drinks, ...desserts, ...bakery];
+
+    function renderSection(list, targetId) {
+      const el = document.getElementById(targetId);
+      el.innerHTML = '';
+      list.forEach((it, i) => {
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.style.animationDelay = (i * 0.08) + 's';
+        card.innerHTML = `
+          <div class="thumb"><img src="${it.img}" alt="${it.name}"></div>
+          <div class="content">
+            <div class="title">${it.name}</div>
+            <div class="meta">
+              <div class="price">${it.price}</div>
+              <button class="btn" onclick="alert('Додано: ${it.name}')">Додати</button>
+            </div>
+          </div>`;
+        el.appendChild(card);
+      });
+    }
+
+    renderSection(allItems, 'all');
+    renderSection(popular, 'popular');
+    renderSection(drinks, 'drinks');
+    renderSection(desserts, 'desserts');
+    renderSection(additives, 'additives');
+    renderSection(bakery, 'bakery');
+
+    const searchEl = document.getElementById('search');
+    searchEl.addEventListener('input', ()=>{
+      const q = searchEl.value.toLowerCase();
+      const filter = arr => arr.filter(it => it.name.toLowerCase().includes(q));
+      renderSection(filter(allItems), 'all');
+      renderSection(filter(popular), 'popular');
+      renderSection(filter(drinks), 'drinks');
+      renderSection(filter(desserts), 'desserts');
+      renderSection(filter(additives), 'additives');
+      renderSection(filter(bakery), 'bakery');
+    });
+
+  function showCategory(cat, event) {
+    ['all','popular','drinks','desserts','additives','bakery'].forEach(id => {
+      const sec = document.getElementById(`${id}-section`);
+      if(id===cat){
+        sec.style.display = 'block';
+        sec.classList.add('active'); // додаємо active до секції
+      } else {
+        sec.style.display = 'none';
+        sec.classList.remove('active'); // видаляємо active з інших
+      }
+    });
+
+    if(event){
+      document.querySelectorAll('.sidebar button').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      }
+    }
+
+    function openModal() {
+      const modal = document.getElementById('homeModal');
+      modal.style.display = 'flex';
+      setTimeout(()=> modal.querySelector('.modal-content').style.transform = 'scale(1)', 50);
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('homeModal');
+      modal.querySelector('.modal-content').style.transform = 'scale(0)';
+      setTimeout(()=> modal.style.display='none', 300);
+    }
+
+    window.addEventListener('load', () => {
+      const loader = document.getElementById('loader');
+      const sidebar = document.querySelector('.sidebar');
+      const wrapper = document.querySelector('.content-wrapper');
+      document.body.classList.add('loaded');
+      setTimeout(() => {
+        loader.remove();
+        sidebar.classList.add('loaded');
+        wrapper.classList.add('loaded');
+        document.querySelector('header').style.opacity = '1';
+        document.querySelector('footer').style.opacity = '1';
+      }, 1800);
+    });
+  </script>
+</body>
+</html>
