@@ -420,9 +420,19 @@
     function openModal() {
       const modal = document.getElementById('homeModal');
       modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
       setTimeout(()=> modal.querySelector('.modal-content').style.transform = 'scale(1)', 50);
     }
 
+    function closeModal() {
+      const modal = document.getElementById('homeModal');
+      modal.querySelector('.modal-content').style.transform = 'scale(0)';
+      setTimeout(()=>{
+        modal.style.display='none';
+        document.body.style.overflow = '';
+      }, 300);
+    }
+    
     function closeModal() {
       const modal = document.getElementById('homeModal');
       modal.querySelector('.modal-content').style.transform = 'scale(0)';
