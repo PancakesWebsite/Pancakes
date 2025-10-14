@@ -433,12 +433,6 @@
       }, 300);
     }
     
-    function closeModal() {
-      const modal = document.getElementById('homeModal');
-      modal.querySelector('.modal-content').style.transform = 'scale(0)';
-      setTimeout(()=> modal.style.display='none', 300);
-    }
-
     window.addEventListener('load', () => {
       const loader = document.getElementById('loader');
       const sidebar = document.querySelector('.sidebar');
