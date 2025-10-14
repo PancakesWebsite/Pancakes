@@ -140,6 +140,11 @@
     .brand h1 { font-family: 'Playfair Display', serif; font-size: 26px; color: #3a2c1a; }
     .tagline { font-size: 14px; color: var(--muted); }
     .search { flex: 1; max-width: 360px; padding: 10px 14px; border-radius: 12px; border: 1px solid #ddd; font-size: 14px; }
+    .search-cart-wrapper { display:flex; align-items:center; gap:8px; flex:1; max-width:360px; }
+    #search { flex:1; padding: 10px 14px; border-radius: 12px; border: 1px solid #ddd; font-size: 14px; }
+    #cartBtn { position: relative; padding: 8px 12px; border:none; border-radius:12px; background: var(--accent); color:#fff; font-weight:600; cursor:pointer; }
+    #cartCount { position:absolute; top:-6px; right:-6px; background:red; color:#fff; font-size:12px; border-radius:50%; padding:2px 6px; display:none; }
+
     main { max-width: 1600px; margin: 40px auto; padding: 0 16px; }
     h2.section-title {
       font-family: 'Playfair Display', serif;
@@ -268,6 +273,14 @@
     </div>
   </div>
 
+  <div id="cartModal" class="modal">
+    <div class="modal-content">
+      <h2>Ваш кошик</h2>
+      <ul id="cartList" style="text-align:left; margin:12px 0;"></ul>
+      <button onclick="closeCart()" style="margin-top:12px;padding:8px 16px;border:none;border-radius:12px;background:#d6a354;color:#fff;font-weight:600;cursor:pointer;">Закрити</button>
+    </div>
+  </div>
+
   <div class="content-wrapper">
     <header>
       <div class="brand">
@@ -279,7 +292,10 @@
           <div class="tagline">Кава, напої та десерти</div>
         </div>
       </div>
-      <input id="search" class="search" placeholder="Пошук у меню">
+      <div class="search-cart-wrapper">
+        <input id="search" class="search" placeholder="Пошук у меню">
+        <button id="cartBtn">🛒 Cart <span id="cartCount">0</span></button>
+      </div>
     </header>
 
     <main>
@@ -360,6 +376,39 @@
     const popular = [ drinks[5], drinks[4], drinks[3], desserts[0], desserts[4] ];
     const allItems = [...drinks, ...desserts, ...bakery];
 
+    let cart = [];
+    function addToCart(item) {
+      cart.push(item);
+      updateCartCounter();
+    }
+
+    function updateCartCounter() {
+      const countEl = document.getElementById('cartCount');
+      if(cart.length > 0){
+        countEl.style.display = 'inline';
+        countEl.textContent = cart.length;
+      } else {
+        countEl.style.display = 'none';
+      }
+    }
+
+    document.getElementById('cartBtn').addEventListener('click', () => {
+      if(cart.length === 0){
+        alert('Кошик порожній 😢');
+        return;
+      }
+      const cartList = document.getElementById('cartList');
+      cartList.innerHTML = '';
+      cart.forEach(it => {
+        const li = document.createElement('li');
+        li.textContent = `${it.name} — ${it.price}`;
+        cartList.appendChild(li);
+      });
+      document.getElementById('cartModal').style.display = 'flex';
+    });
+
+    function closeCart() { document.getElementById('cartModal').style.display='none'; }
+
     function renderSection(list, targetId) {
       const el = document.getElementById(targetId);
       el.innerHTML = '';
@@ -373,7 +422,7 @@
             <div class="title">${it.name}</div>
             <div class="meta">
               <div class="price">${it.price}</div>
-              <button class="btn" onclick="alert('Додано: ${it.name}')">Додати</button>
+              <button class="btn" onclick="addToCart({name:'${it.name}', price:'${it.price}'})">Додати</button>
             </div>
           </div>`;
         el.appendChild(card);
@@ -405,7 +454,6 @@
         if(id===cat){
           sec.style.display = 'block';
           sec.classList.add('active');
-          sec.scrollIntoView({ behavior: 'smooth' });
         } else {
           sec.style.display = 'none';
           sec.classList.remove('active');
