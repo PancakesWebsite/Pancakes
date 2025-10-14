@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Панкейкс — Меню</title>
 
-  <!-- ✅ Favicon -->
   <link rel="icon" type="image/png" href="https://i.ibb.co/21YYCfXK/photo-2025-10-14-18-48-23.jpg">
 
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
@@ -37,7 +36,6 @@
       font-style: italic; 
     }
 
-    /* LOADER */
     #loader {
       position: fixed;
       inset: 0;
@@ -76,7 +74,6 @@
       border-top: 1px solid rgba(0, 0, 0, 0.15);
     }
 
-    /* SIDEBAR */
     .sidebar {
       width: 220px;
       background: #fff4e4;
@@ -108,7 +105,6 @@
     .sidebar button:hover,
     .sidebar button.active { background: var(--accent); color: #fff; }
 
-    /* MAIN */
     .content-wrapper {
       margin-left: 240px;
       flex: 1;
@@ -151,7 +147,6 @@
     }
     @keyframes fadeInTitle { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* ✅ 8 товарів в ряд */
     .grid { 
       display: grid; 
       grid-template-columns: repeat(6, minmax(150px, 1fr));
@@ -177,7 +172,6 @@
 
     footer { text-align: center; font-size: 14px; color: var(--muted); padding: 32px 0 40px; background: #fff4e4; margin-top: 40px; animation: fadeInTitle 1s ease forwards; opacity: 0; }
 
-    /* Адаптивність для сітки */
     @media (max-width: 1600px) { .grid { grid-template-columns: repeat(6, 1fr); } }
     @media (max-width: 1200px) { .grid { grid-template-columns: repeat(4, 1fr); } }
     @media (max-width: 900px)  { .grid { grid-template-columns: repeat(3, 1fr); } }
@@ -188,7 +182,6 @@
       .content-wrapper { margin-left: 0; } 
     }
 
-    /* МОДАЛКА */
     .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:10000; }
     .modal-content { background:#fffaf3; padding:24px; border-radius:16px; max-width:400px; width:90%; position:relative; transform:scale(0); transition: transform 0.3s ease-out; text-align:center; }
     .modal-content img { width:64px; animation:flyPancake 2s ease-in-out infinite alternate; margin-bottom:12px; }
@@ -196,13 +189,11 @@
   </style>
 </head>
 <body>
-  <!-- LOADER -->
   <div id="loader">
     <div class="loader-circle"></div>
     <div class="loader-text">Панкейкс завантажується...</div>
   </div>
 
-  <!-- SIDEBAR -->
   <aside class="sidebar">
     <h2>Категорії</h2>
     <hr class="sidebar-divider">
@@ -216,7 +207,6 @@
     <button onclick="openModal()">Інформація</button>
   </aside>
 
-  <!-- МОДАЛКА -->
   <div id="homeModal" class="modal">
     <div class="modal-content">
       <img src="https://i.ibb.co/21YYCfXK/photo-2025-10-14-18-48-23.jpg" alt="Панкейк">
@@ -369,10 +359,10 @@
       const sec = document.getElementById(`${id}-section`);
       if(id===cat){
         sec.style.display = 'block';
-        sec.classList.add('active'); // додаємо active до секції
+        sec.classList.add('active');
       } else {
         sec.style.display = 'none';
-        sec.classList.remove('active'); // видаляємо active з інших
+        sec.classList.remove('active');
       }
     });
 
