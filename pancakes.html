@@ -405,6 +405,7 @@
         if(id===cat){
           sec.style.display = 'block';
           sec.classList.add('active');
+          sec.scrollIntoView({ behavior: 'smooth' });
         } else {
           sec.style.display = 'none';
           sec.classList.remove('active');
