@@ -35,7 +35,6 @@
 
     .sidebar button.active { background: var(--accent); color: #fff; font-style: italic; }
 
-    /* LOADER */
     #loader {
       position: fixed;
       top: 0;
@@ -79,7 +78,6 @@
       border-top: 1px solid rgba(0, 0, 0, 0.15);
     }
 
-    /* SIDEBAR */
     .sidebar {
       width: 220px;
       background: #fff4e4;
@@ -111,7 +109,6 @@
     .sidebar button:hover,
     .sidebar button.active { background: var(--accent); color: #fff; }
 
-    /* MAIN */
     .content-wrapper {
       margin-left: 240px;
       flex: 1;
@@ -159,7 +156,6 @@
     }
     @keyframes fadeInTitle { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* GRID */
     .grid { 
       display: grid; 
       grid-template-columns: repeat(6, minmax(150px, 1fr));
@@ -185,21 +181,18 @@
 
     footer { text-align: center; font-size: 14px; color: var(--muted); padding: 32px 0 40px; background: #fff4e4; margin-top: 40px; animation: fadeInTitle 1s ease forwards; opacity: 0; }
 
-    /* MODAL */
     .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100vh;min-height:100dvh;background:rgba(0,0,0,0.6);justify-content:center;align-items:center;z-index:10000;overflow-y: auto;}
     .modal-content{background:#fffaf3;padding:24px;border-radius:16px;max-width:400px;width:90%;position:relative;transform:scale(0);transition:transform 0.3s ease-out;text-align:center;}
     .modal-content img{width:64px;animation:flyPancake 2s ease-in-out infinite alternate;margin-bottom:12px;}
 
     @keyframes flyPancake { from { transform: translateY(0) rotate(0deg); } to { transform: translateY(-15px) rotate(10deg); } }
 
-    /* RESPONSIVE GRID */
     @media (max-width: 1600px) { .grid { grid-template-columns: repeat(6, 1fr); } }
     @media (max-width: 1200px) { .grid { grid-template-columns: repeat(4, 1fr); } }
     @media (max-width: 900px)  { .grid { grid-template-columns: repeat(3, 1fr); } }
     @media (max-width: 600px)  { .grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 400px)  { .grid { grid-template-columns: repeat(1, 1fr); } }
 
-    /* RESPONSIVE SIDEBAR */
     @media (max-width: 900px) {
       .sidebar {
         position: relative;
@@ -225,7 +218,6 @@
       .content-wrapper { margin-left: 0; }
     }
 
-    /* HEADER & SEARCH MOBILE */
     @media (max-width: 600px) {
       header {
         flex-direction: column;
@@ -236,13 +228,11 @@
   </style>
 </head>
 <body>
-  <!-- LOADER -->
   <div id="loader">
     <div class="loader-circle"></div>
     <div class="loader-text">Панкейкс завантажується...</div>
   </div>
 
-  <!-- SIDEBAR -->
   <aside class="sidebar">
     <h2>Категорії</h2>
     <hr class="sidebar-divider">
@@ -256,7 +246,6 @@
     <button onclick="openModal()">Інформація</button>
   </aside>
 
-  <!-- MODAL -->
   <div id="homeModal" class="modal">
     <div class="modal-content">
       <img src="https://i.ibb.co/21YYCfXK/photo-2025-10-14-18-48-23.jpg" alt="Панкейк">
@@ -337,40 +326,40 @@
 
   <script>
     const drinks = [
-      {name:'Апельсиновий сік (200мг)',price:'50 грн',img:'https://i.ibb.co/B2P965Pn/image-removebg-preview.png'},
-      {name:'Банановий шейк (200мг)',price:'50 грн',img:'https://i.ibb.co/F4X9zwYy/image-removebg-preview-1.png'},
-      {name:'Гарячий шоколад з маршмеллоу (300мг)',price:'45 грн',img:'https://i.ibb.co/sJcWS13q/image-removebg-preview-2-1.png'},
-      {name:'Ягідний смузі (300мг)',price:'60 грн',img:'https://i.ibb.co/svZWNZVp/image-removebg-preview-2.png'},
-      {name:'Латте з молоком (200мг)',price:'65 грн',img:'https://i.ibb.co/N67nD50C/image-removebg-preview-3-1.png'},
-      {name:'Капучино (200мг)',price:'65 грн',img:'https://i.ibb.co/F4SCHHJG/image-removebg-preview-4.png'},
-      {name:'Какао (200мг)',price:'65 грн',img:'https://i.ibb.co/C5VHByrz/image-removebg-preview-5.png'}
+      {name:'Апельсиновий сік (200мг)',price:'50 грн',img:'https://i.ibb.co/MxFnNmSh/image-removebg-preview.png'},
+      {name:'Банановий шейк (200мг)',price:'50 грн',img:'https://i.ibb.co/ZpJyGnCH/image-removebg-preview-1.png'},
+      {name:'Гарячий шоколад з маршмеллоу (300мг)',price:'45 грн',img:'https://i.ibb.co/6Jf1cz9q/image-removebg-preview-2-1.png'},
+      {name:'Ягідний смузі (300мг)',price:'60 грн',img:'https://i.ibb.co/svZwvPXG/image-removebg-preview-2.png'},
+      {name:'Латте з молоком (200мг)',price:'65 грн',img:'https://i.ibb.co/JjJZyQrT/image-removebg-preview-3-1.png'},
+      {name:'Капучино (200мг)',price:'65 грн',img:'https://i.ibb.co/jkVVj2FT/image-removebg-preview-4.png'},
+      {name:'Какао (200мг)',price:'65 грн',img:'https://i.ibb.co/j9p0PFpv/image-removebg-preview-5.png'}
     ];
 
     const desserts = [
-      {name:'Сирники з ягодами',price:'120 грн',img:'https://i.ibb.co/QFBZyhh8/image-removebg-preview-6-1.png'},
-      {name:'Панкейки з медом',price:'110 грн',img:'https://i.ibb.co/TD63vGBt/image-removebg-preview-7-1.png'},
-      {name:'Млинці з шоколадом',price:'100 грн',img:'https://i.ibb.co/C3Rkmxb6/image-removebg-preview-8.png'},
-      {name:'Морозиво з фруктами',price:'100 грн',img:'https://i.ibb.co/tp0TRv5x/image-removebg-preview-9-1.png'},
-      {name:'Чізкейк міні',price:'80 грн',img:'https://i.ibb.co/gF4NHFPL/image-removebg-preview-10-1.png'},
-      {name:"Печиво з глазур'ю",price:'70 грн',img:'https://i.ibb.co/DX51Fng/image-removebg-preview-11.png'}
+      {name:'Сирники з ягодами',price:'120 грн',img:'https://i.ibb.co/sLr1Q7x/image-removebg-preview-6-1.png'},
+      {name:'Панкейки з медом',price:'110 грн',img:'https://i.ibb.co/hkD2kFG/image-removebg-preview-7-1.png'},
+      {name:'Млинці з шоколадом',price:'100 грн',img:'https://i.ibb.co/6qnGK1r/image-removebg-preview-8.png'},
+      {name:'Морозиво з фруктами',price:'100 грн',img:'https://i.ibb.co/C3Lsp5GB/image-removebg-preview-9-1.png'},
+      {name:'Чізкейк міні',price:'80 грн',img:'https://i.ibb.co/WWSf90CZ/image-removebg-preview-10-1.png'},
+      {name:"Печиво з глазур'ю",price:'70 грн',img:'https://i.ibb.co/TBgH11H8/image-removebg-preview-11.png'}
     ];
 
     const additives = [
-     {name:'Вишневий',price:'15 грн',img:'https://i.ibb.co/8L7DvVPp/visnya-500x500-removebg-preview.png'},
-     {name:'Банановий',price:'15 грн',img:'https://i.ibb.co/Gfv1qJLT/image-removebg-preview-3.png'},
-     {name:'Шоколадний',price:'15 грн',img:'https://i.ibb.co/S7rHsk8g/image-removebg-preview-6.png'},
-     {name:'Кремовий',price:'15 грн',img:'https://i.ibb.co/rf4cJRgz/image-removebg-preview-7.png'},
-     {name:'Карамельний', price:'15 грн', img:'https://i.ibb.co/DPD9CDMf/image-removebg-preview-9.png'},
-     {name:'Малиновий', price:'15 грн', img:'https://i.ibb.co/HpNsLZcT/image-removebg-preview-10.png'}
+     {name:'Вишневий',price:'15 грн',img:'https://i.ibb.co/5g0sksWZ/visnya-500x500-removebg-preview.png'},
+     {name:'Банановий',price:'15 грн',img:'https://i.ibb.co/RpBCnsNk/image-removebg-preview-3.png'},
+     {name:'Шоколадний',price:'15 грн',img:'https://i.ibb.co/QvRShmLq/image-removebg-preview-6.png'},
+     {name:'Кремовий',price:'15 грн',img:'https://i.ibb.co/Fb0hX5cm/image-removebg-preview-7.png'},
+     {name:'Карамельний', price:'15 грн', img:'https://i.ibb.co/214Rw3V7/image-removebg-preview-9.png'},
+     {name:'Малиновий', price:'15 грн', img:'https://i.ibb.co/W4Rv5sN1/image-removebg-preview-10.png'}
     ];
 
     const bakery = [
-     {name:'Паніні',price:'49 грн',img:'https://i.ibb.co/VW4wvwhd/image-removebg-preview-12.png'},
+     {name:'Паніні',price:'49 грн',img:'https://i.ibb.co/LD6KJ9gP/image-removebg-preview-12.png'},
      {name:'Круасан',price:'69 грн',img:'https://i.ibb.co/W4Vw3MHt/Croi-Buter-Brott-500x500-min-63d2591721133.png'},
-     {name:'Маффін',price:'69 грн',img:'https://i.ibb.co/C3p7GGSH/image-removebg-preview-13.png'},
-     {name:'Хот дог',price:'59 грн',img:'https://i.ibb.co/SCPmG30/image-removebg-preview-14.png'},
-     {name:'Булочка з корицею', price:'75 грн', img:'https://i.ibb.co/TqNVG2PC/image-removebg-preview-16.png'},
-     {name:'Пиріжок з яблуками', price:'70 грн', img:'https://i.ibb.co/wGTPFwd/image-removebg-preview-17-1.png'}
+     {name:'Маффін',price:'69 грн',img:'https://i.ibb.co/Fb52gbcz/image-removebg-preview-13.png'},
+     {name:'Хот дог',price:'59 грн',img:'https://i.ibb.co/0y3h3bd5/image-removebg-preview-14.png'},
+     {name:'Булочка з корицею', price:'75 грн', img:'https://i.ibb.co/hRQjNqP1/image-removebg-preview-16.png'},
+     {name:'Пиріжок з яблуками', price:'70 грн', img:'https://i.ibb.co/6R0ZN4xX/image-removebg-preview-17-1.png'}
     ];
 
     const popular = [ drinks[5], drinks[4], drinks[3], desserts[0], desserts[4] ];
@@ -406,7 +395,7 @@
     });
     const cartModal = document.getElementById('cartModal');
     cartModal.style.display = 'flex';
-    document.body.style.overflow = 'hidden'; // забороняємо скрол
+    document.body.style.overflow = 'hidden';
     setTimeout(()=> cartModal.querySelector('.modal-content').style.transform = 'scale(1)', 50);
     });
 
