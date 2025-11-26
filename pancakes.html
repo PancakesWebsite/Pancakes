@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Панкейкс — Головна</title>
+
+  <link rel="icon" type="image/png" href="https://i.ibb.co/nsD9gLKT/photo-2025-10-14-18-48-23.jpg">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --accent: #d6a354;
+      --muted: #ccc;
+      --card-bg: rgba(255,255,255,0.05);
+    }
+
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: #fff;
+      position: relative;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background: linear-gradient(135deg, #0a0a0a, #111, #222, #0a0a0a);
+      background-size: 400% 400%;
+      animation: gradientShift 20s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position:0% 50%; }
+      50% { background-position:100% 50%; }
+      100% { background-position:0% 50%; }
+    }
+
+    body::before {
+      content:'';
+      position:absolute;
+      top:0; left:0;
+      width:100%; height:100%;
+      background: repeating-linear-gradient(45deg, rgba(214,163,84,0.05) 0, rgba(214,163,84,0.05) 1px, transparent 1px, transparent 20px);
+      animation: moveLines 15s linear infinite;
+      z-index:0;
+    }
+
+    @keyframes moveLines { from { background-position:0 0; } to { background-position:200px 200px; } }
+
+    header {
+      position: relative;
+      z-index: 2;
+      text-align:center;
+      padding:40px 16px 20px;
+    }
+    header h1 { font-family: 'Playfair Display', serif; font-size:48px; color:#fff; text-shadow: 0 0 10px #d6a354; margin-bottom:10px; }
+    header p.subtitle { font-size:18px; color:#ccc; margin-bottom:30px; }
+
+    main { position: relative; z-index:2; max-width:1200px; margin:0 auto; padding:20px 16px; }
+
+    .section-header {
+      font-family: 'Playfair Display', serif;
+      font-size:32px;
+      color:#fff;
+      text-shadow: 0 0 10px #d6a354, 0 0 20px #fff;
+      margin-bottom:24px;
+      text-align:center;
+    }
+
+    .feature-grid {
+      display:flex;
+      flex-wrap:wrap;
+      gap:20px;
+      justify-content:center;
+      margin-bottom:50px;
+    }
+
+    .feature-card {
+      background: rgba(255,255,255,0.05);
+      border-radius:16px;
+      width:240px;
+      padding:16px;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 0 10px rgba(214,163,84,0.5);
+      transition: transform 0.3s, box-shadow 0.3s, filter 0.3s;
+      text-align:center;
+    }
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 0 30px #d6a354, 0 0 50px rgba(214,163,84,0.6);
+      filter: brightness(1.1);
+    }
+    .feature-card img { width:100%; border-radius:12px; margin-bottom:12px; }
+    .feature-card .title { font-size:20px; font-weight:600; margin-bottom:6px; }
+    .feature-card .desc { font-size:14px; color:#ccc; }
+
+    #about {
+      text-align:center;
+      margin-bottom:50px;
+    }
+    #about h2 { font-family:'Playfair Display', serif; font-size:36px; margin-bottom:16px; color:#fff; text-shadow:0 0 10px #d6a354; }
+    #about p { max-width:700px; margin:0 auto; color:#ccc; font-size:16px; line-height:1.6; }
+
+    footer {
+      text-align:center;
+      padding:40px 16px;
+      font-size:14px;
+      color:#ccc;
+      position: relative;
+      z-index:2;
+    }
+
+    .modal {display:none;position:fixed;top:0;left:0;width:100%;height:100vh;background:rgba(0,0,0,0.6);justify-content:center;align-items:center;z-index:10000;overflow-y:auto;}
+    .modal-content {background:#111;padding:24px;border-radius:16px;max-width:400px;width:90%;position:relative;transform:scale(0);transition:transform 0.3s ease-out;text-align:center;color:#fff;}
+    .modal-content img {width:64px;margin-bottom:12px;border-radius:50%; border:2px solid #d6a354;}
+    .modal-content button {margin-top:12px;padding:8px 16px;border:none;border-radius:12px;background:#d6a354;color:#fff;font-weight:600;cursor:pointer;}
+    .modal-content hr {border:none;border-top:1px solid #ccc; margin:15px 0;}
+
+    .cursor-trail {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, #d6a354, transparent);
+      box-shadow: 0 0 20px #d6a354;
+      animation: fadeOut 0.4s forwards;
+    }
+
+    @keyframes fadeOut {
+      from { opacity: 1; transform: scale(1); }
+      to { opacity: 0; transform: scale(2); }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Ласкаво просимо до Панкейкс</h1>
+    <p class="subtitle">Смак, тепло та якість в кожному панкейку</p>
+
+    <button onclick="openModal()"
+      style="padding:10px 20px;border:none;border-radius:12px;background:#d6a354;color:#fff;font-weight:600;cursor:pointer;">
+      Контакти
+    </button>
+
+    <button onclick="location.href='https://pancakeswebsite.github.io/Pancakes/pancakesmenu.html'"
+      style="padding:10px 20px;border:none;border-radius:12px;background:#d6a354;color:#fff;font-weight:600;cursor:pointer; margin-left:10px;">
+      Меню 🍽️
+    </button>
+  </header>
+
+  <main>
+    <h2 class="section-header">Що у нас є:</h2>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <img src="https://i.ibb.co/nsD9gLKT/photo-2025-10-14-18-48-23.jpg" alt="Панкейки">
+        <div class="title">Наші панкейки</div>
+        <div class="desc">Світлі, пухкі і неймовірно смачні.</div>
+      </div>
+      <div class="feature-card">
+        <img src="https://i.ibb.co/MxFnNmSh/image-removebg-preview.png" alt="Напої">
+        <div class="title">Свіжі напої</div>
+        <div class="desc">Фреші, шейки та кава з любов’ю.</div>
+      </div>
+      <div class="feature-card">
+        <img src="https://i.ibb.co/sLr1Q7x/image-removebg-preview-6-1.png" alt="Десерти">
+        <div class="title">Солодкі десерти</div>
+        <div class="desc">Десерти для найсолодших моментів.</div>
+      </div>
+    </div>
+
+    <section id="about">
+      <h2>Про нас</h2>
+      <p>Ми — команда Панкейкс, яка вірить, що смачний панкейк може зробити день кращим. 
+      Від ідеї до реалізації — ми створюємо смакоту з любов’ю та турботою про кожного відвідувача. 
+      У нас ти знайдеш найсмачніші панкейки, свіжі напої та десерти для душі.</p>
+    </section>
+  </main>
+
+  <footer>
+    © 2025 Панкейкс — З любов’ю до кави, смаку та тепла ☕🥞
+  </footer>
+  
+  <div id="contactModal" class="modal">
+    <div class="modal-content">
+      <img src="https://i.ibb.co/nsD9gLKT/photo-2025-10-14-18-48-23.jpg" alt="Панкейк">
+      <h2>Контакти</h2>
+      <p><strong>Адреса:</strong> Львів, Проспект Свободи 54 💛</p>
+      <p><strong>Телефон:</strong> +380 99 123 45 67</p>
+      <p><strong>Email:</strong> pancakes@example.com</p>
+      <hr>
+      <p><strong>Команда:</strong> Дмитро Шпак, Максим Міштурак, Матвій Стахів, Іван Антоняк, Артем Тарасов, Дмитро Михайлів</p>
+      <button onclick="closeModal()">Закрити</button>
+    </div>
+  </div>
+
+  <script>
+    function openModal() {
+      const modal = document.getElementById('contactModal');
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      setTimeout(()=> modal.querySelector('.modal-content').style.transform = 'scale(1)',50);
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('contactModal');
+      modal.querySelector('.modal-content').style.transform = 'scale(0)';
+      setTimeout(()=> {
+        modal.style.display='none';
+        document.body.style.overflow='';
+      },300);
+    }
+    document.addEventListener("mousemove", function(e) {
+      let trail = document.createElement("div");
+      trail.className = "cursor-trail";
+      trail.style.left = e.pageX + "px";
+      trail.style.top = e.pageY + "px";
+      document.body.appendChild(trail);
+      setTimeout(() => trail.remove(), 400);
+    });
+  </script>
+
+</body>
+</html>
